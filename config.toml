@@ -1,9 +1,9 @@
-baseURL = ""
+baseURL = "https://housni-hassani.netlify.app"
 theme = "hugo-apero"
 languageCode = "en"
 #title = "Hugo Apéro"
-title = "Elimu"
-author = "Housnii"
+title = "Housni Hassani"
+author = "Housni"
 copyright = "" # set to override the auto generated copyright using org info and now year
 googleAnalytics = ""
 disqusShortname = "" # see params.utterances to use utterances instead of Disqus
@@ -34,7 +34,7 @@ pygmentsUseClasses = true  # use class names instead of directly inserting color
 #pygmentsCodeFences = true  # enable GitHub style code snippets
 
 [params]
-  orgName = "Elimu"
+  orgName = "Housni Hassani"
   orgLocal = ""
   #description = "A modern, beautiful, and easily configurable blog theme for Hugo."
   description = "Personal website of Housni Hassani"
