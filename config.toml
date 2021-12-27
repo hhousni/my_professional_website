@@ -126,16 +126,16 @@ pygmentsUseClasses = true  # use class names instead of directly inserting color
   tag = "tags"
 
 [menu]
-  # Configure header 
+  # Configure header
+   [[menu.header]]
+    name = "Blog"
+    title = "Ujamaa"
+    url = "/blog/"
+    weight = 1
   [[menu.header]]
     name = "About"
     title = "About Me"
     url = "/about/"
-    weight = 1
-  [[menu.header]]
-    name = "Blog"
-    title = "Ujamaa"
-    url = "/blog/"
     weight = 2
   #[[menu.header]]
   #  name = "Talks"
