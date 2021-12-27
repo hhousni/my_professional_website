@@ -19,7 +19,7 @@ and insight from structured and unstructured data.
     INSEEC Business School, France  &#8729;  2019
 
 <i class="fas fa-graduation-cap pr2"></i>MA. in Economics  &#8729;
-    University of Toulon,France  &#8729;  2016
+    University of Toulon, France  &#8729;  2016
     
 <i class="fas fa-graduation-cap pr2"></i>B.A. in Economics and Management  &#8729;
     University of Savoy, France  &#8729;  2016
