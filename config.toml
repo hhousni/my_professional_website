@@ -173,16 +173,16 @@ pygmentsUseClasses = true  # use class names instead of directly inserting color
     title = "Contact Form"
     url = "/contact/"
     weight = 2
-  [[menu.footer]]
-    name = "Accessibility"
-    title = "Accessibility Commitment"
-    url = "/accessibility/"
-    weight = 1
-  [[menu.footer]]
-    name = "RSS"
-    title = "Subscribe via RSS"
-    url = "/blog/index.xml/"
-    weight = 5
+  #[[menu.footer]]
+  #  name = "Accessibility"
+  #  title = "Accessibility Commitment"
+  #  url = "/accessibility/"
+  #  weight = 1
+  #[[menu.footer]]
+  # name = "RSS"
+  #  title = "Subscribe via RSS"
+  #  url = "/blog/index.xml/"
+  #  weight = 5
   #[[menu.footer]]
   #  name = "Contributors"
   #  title = "Contributors"

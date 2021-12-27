@@ -7,10 +7,9 @@ headline: |
 ---
 
 <!-- this is a subheadline -->
-I'm Housni, 
+Hello, I'm Housni Hassani, Karibu (welcome in Swahili) to my website. 
 
-I'm a Data scientist, Economist and R addict.
-I like to use scientific methods, process, algorithm and system to extract knowledge
+I'm a Data scientist, Economist and R addict, passionate about Sport  and Nature. I like to use scientific methods, process, algorithm and system to extract knowledge
 and insight from structured and unstructured data. 
 
 
@@ -20,7 +19,7 @@ and insight from structured and unstructured data.
     INSEEC Business School, France  &#8729;  2019
 
 <i class="fas fa-graduation-cap pr2"></i>MA. in Economics  &#8729;
-    University of Toulon  &#8729;  2016
+    University of Toulon,France  &#8729;  2016
     
 <i class="fas fa-graduation-cap pr2"></i>B.A. in Economics and Management  &#8729;
-    University of Savoy  &#8729;  2016
+    University of Savoy, France  &#8729;  2016
