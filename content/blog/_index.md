@@ -14,7 +14,7 @@ layout: list-sidebar # list, list-sidebar, list-grid
 sidebar: 
   title: Ujamaa
   description: |
-    This is my blog where I share my intellectual curiosity about data science, economics and Marketing. It includes notes and tutorials for the community and my future self.
+    This is my blog where I share my intellectual curiosity about Data science, Economics and Marketing. It includes notes and tutorials for the community and my future self.
   author: "Housni Hassani"
   text_link_label: Subscribe via RSS
   text_link_url: /index.xml
