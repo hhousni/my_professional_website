@@ -5,12 +5,13 @@ date: '2021-12-26'
 categories:
   - Machine Learning
   - Marketing
+  - Business Analytics
 tags:
   - R
   - Marketing
 slug: rstudio-instructor-certification-tidyverse
 subtitle: Using K-mean algorithm
-summary: This paper aimed to perform a customer segmentation in R programming. We used a Shopping mall customers dataset to implement it.
+summary: In this post, we perform a customer segmentation in R programming using k-mean algorithm. We used a Shopping mall customers dataset to implement it.
 lastmod: 2021-03-31
 featured: yes
 draft: no
@@ -34,47 +35,49 @@ links:
 
 
 
-## Introduction
+# Introduction
 
-My life is composed by different groups, my family, my friends, my co-workers, my clients etc. Each group has his needs and his expectations. In order to Satisfy them, I set up different forms of communication and interaction.
+My life is composed by different groups, my family, my friends, my co-workers, my clients. etc. Each segment has their needs and their expectations. To satisfy them, I set up different forms of communication and interaction.
+Companies face the same challenges as we do. They communicate and interact with different customers. To succeed, they have to be able to identify groups of people that have similar characteristics among their customers to: 
 
-Companies face the same challenges as we do in our daily lives.They communicate and interact with different customers. To succeed, they have to be able to identify groups of people that have similar characteristics among their customers, in order to : 
-
-- Better understand and target their customers
-- Gain competitive advantage against competitors
+- Better understand and target them
+- Gain competitive advantage
 - Determine new market opportunities 
-- Focus on the most profitable customers
-- Upsell and cross-sell other products and services. 
+- Focus on the most profitable segment
+- Upsell and cross-sell other products and services
 
-**Customer segmentation** is the practice of dividing customer into groups based on similar characteristics. 
+**Customer segmentation** is the practice of dividing customer into groups based on similar characteristics. In this post, we perform a customer segmentation in R programming using **k-mean** algorithm. We use a Shopping mall customers data set to implement it.
 
-This paper aims to perform a **Customers segmentation** using k-means algorithm in R programming. 
-
-
-## 1: Data Loading and exploratory Analysis 
-
-In general, to perform a cluster analysis, the dataset should be prepared as follows: 
+# Data Loading and exploratory Analysis 
+To o perform a cluster analysis, the data set should be prepared as follows: 
 
 - Columns should be the variables and Row the observations 
-- The dataset should not contain any missing values or blank. Any missing values should be removed or estimated 
+- The data set should not contain any missing values or blank. Otherwise, they should be removed or estimated 
 - The data should be standardized in order to make the variables comparable. 
 
-### 1.1 Data Loading and prepration 
+## Data Loading and prepration 
+
 
 ```r
-#The Pacman package is going to be used as package manager
+# The Pacman package is used as package manager
 
 if(!require("pacman")) install.packages("pacman")
 ```
 
 ```
-## Loading required package: pacman
+## Warning: package 'pacman' was built under R version 4.1.2
 ```
 
 ```r
+# Load the packages
+
+p_load(tidyverse,factoextra)
+
+# Load the data set 
+
 data <- read.csv("https://raw.githubusercontent.com/hhousni/Customer_segmentation/main/Mall_Customers.csv")
 ```
-\
+
 **Data overview**
 
 
@@ -91,7 +94,7 @@ str(data)
 ##  $ Spending.Score..1.100.: int  39 81 6 77 40 76 6 94 3 72 ...
 ```
 
-The dataset is composed by 200 observations and 5 variables:
+The data set contains 200 observations and 5 variables:
 
 - CustomerID: The unique customer's ID
 - Gender: customer's gender 
@@ -103,7 +106,7 @@ The dataset is composed by 200 observations and 5 variables:
 Checking, if there are missing values in the dataset. 
 
 ```r
-#To find the number of NAs in each variable 
+#Find the number of NAs in each variable 
 lapply(data,function(x) {length(which(is.na(x)))})
 ```
 
@@ -125,7 +128,7 @@ lapply(data,function(x) {length(which(is.na(x)))})
 ```
 
 ```r
-#To find the number of blank in each variable
+#Find the number of blank in each variable
 lapply(data, function(x) {length(which((x=="")))})
 ```
 
@@ -146,10 +149,9 @@ lapply(data, function(x) {length(which((x=="")))})
 ## [1] 0
 ```
 
-The dataset does not contain missing values as both NAs and blank spaces.  
-\
+The data set does not contain missing values as both NAs and blank spaces.  
 
-### 1.2 Exploratory Analysis 
+## Exploratory Analysis 
 
 
 ```r
@@ -166,7 +168,6 @@ head(data)
 ## 6          6 Female  22                 17                     76
 ```
 
-\
 **Gender Visualization** 
 
 
@@ -185,8 +186,6 @@ ggplot(data, aes(Gender, fill=Gender)) +
 
 Woman represent the majority of the Shopping mall customers. 
 
-\
-\
 **Age distribution** 
 
 
@@ -212,8 +211,6 @@ ggplot(data, aes(Age)) + geom_histogram(binwidth = 5, breaks=seq(15,70, by=5),
 
 Customers age is between 18 to 70 years old. The average customer is 38.85 years old and the median is 36 years old. The majority of customer are between 20 to 50 years old. 
 
-\
-\
 
 **Annual Income Distribution** 
 
@@ -236,10 +233,9 @@ ggplot(data, aes(Annual.Income..k..)) + geom_histogram(binwidth = 5, breaks=seq(
 ```
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
-\
+
 In average, the customers earn 60.56 k(\$) per year, the minimum income is 15k(\$) per year and the maximum is 137 k(\$) per year. The major part of customers earn less than 90 k(\$) per year.  
-\
-\
+
 **Spending Score distribution** 
 
 
@@ -264,10 +260,10 @@ ggplot(data, aes(Spending.Score..1.100.)) + geom_histogram(binwidth = 5, breaks=
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
 
-## 2 Implementation of k-means
+# Implementation of k-means
 
 
-### 2.1 Algorithme description 
+## Algorithme description 
 
 
 **K-means clustering** is an unsupervised machine learning algorithm that splits unlabeled dataset into a number of pre-defined clusters (k) according to their properties. The goal of the k-means algorithm is to minimize the sum of distance between the data point and their corresponding cluster. 
@@ -276,8 +272,8 @@ k-means algorithm works as follow:
 
 1. Decide the number of cluster (k)
 2. Select a number of K centroids
-3. Assign for each data point to their closer centroid by using distance measurement such as Euclidean or Manhattan distance.\
-4. For Every centroid, move the centroid to the average of the point assigned to that centroid.\
+3. Assign for each data point to their closer centroid by using distance measurement such as Euclidean or Manhattan distance.
+4. For Every centroid, move the centroid to the average of the point assigned to that centroid.
 5. Repeat step 3 and 4 until the centroids assignment no longer changes.
 
 **To perform the k-means algorithm, the number of cluster has to be specified in advance. Different methods can be used to select the optimal cluster number**. 
@@ -297,28 +293,22 @@ k-means algorithm works as follow:
 
 - The gap statistic compares the total within intra-cluster variation for different values of k with their expected values under null reference distribution of the data. The estimate of the optimal clusters will be value that maximize the gap statistic. 
 
-### 2.2 Slecting the Optimum Number of clusters 
-
-\
+## Slecting the Optimum Number of clusters 
 
 **Elbow method** 
 
 
 ```r
 p_load(purrr)
-
 # function to calculate total intra-cluster sum of square
 set.seed(123)
-
 p_load(cluster,gridExtra,grid, factoextra)
-
 fviz_nbclust(data[,3:5], kmeans, method = "wss") + geom_vline(xintercept = 4, linetype=2) + labs(subtitle = "Elbow method")
 ```
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 
 The above graph seems to show a bend on the cluster number 4. We can conclude that 4 is the appropriate numbers of clusters. 
-
 
 **Silhouette method**
 
@@ -344,11 +334,9 @@ fviz_nbclust(data[,3:5], kmeans, nstart=25, method = "gap_stat", nboot = 50) + l
 
 According to the Gap statistic method, 6 is the optimal number of cluster. 
 
-\
-
 **Two among the three different methods of selecting the optimal number of cluster concluded that 6 is the optimal number of cluster. To implement the K-mean algorithm we are going to use 6 clusters.**
 
-### 2.3 Results 
+# Results 
 
 
 ```r
@@ -388,7 +376,7 @@ result
 ```
 
 **Visualizing the clustering Results using Principle components analysis**
-\
+
 
 ```r
 pcclust <- prcomp(data[,3:5], scale=FALSE) 
@@ -402,6 +390,7 @@ summary(pcclust)
 ## Proportion of Variance  0.4512  0.4410  0.1078
 ## Cumulative Proportion   0.4512  0.8922  1.0000
 ```
+
 
 ```r
 pcclust$rotation[,1:2]
@@ -439,6 +428,6 @@ The visualization of the clusters allows to observe five facts:
 5. **Cluster 6** is regrouping the customers with high income and low spending score.
 
 
-## Conclusion 
+# Conclusion 
 
-This paper aimed to perform a customer segmentation in R programming. We used a  Shopping mall customers dataset to implement it. By using the function ***kmeans()*** from the stats package, we found that the Shopping mall customers can be split in 6 clusters. A principal component analysis allowed to have a better understanding of the clusters. We used the ***fviz_cluster()*** from the factoextra package to visualize the results. 
+In this post we wanted to perform a customer segmentation in R programming using k-mean algorithm. We used a Shopping mall customers data set to implement it. By using the function ***kmeans()*** from the stats package, we found that the Shopping mall customers can be split in 6 clusters. A principal component analysis allowed to have a better understanding of the clusters. We used the ***fviz_cluster()*** from the factoextra package to visualize the results. 
