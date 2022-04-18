@@ -9,15 +9,15 @@ categories:
 tags:
   - R
   - Marketing
-slug: rstudio-instructor-certification-tidyverse
+slug: segmentation-kmeans
 subtitle: Using K-mean algorithm
-summary: In this post, we perform a customer segmentation in R programming using k-mean algorithm. We used a Shopping mall customers dataset to implement it.
+summary: In this post, we perform a customer segmentation in R programming using k-means algorithm. We used a Shopping mall customers dataset to implement it.
 lastmod: 2021-03-31
 featured: yes
 draft: no
 image:
   placement: 1
-  caption: '[Illustration from starline on Freepik](https://www.freepik.com/free-vector/segmentation-illustration-concept_6202467.htm#query=segmentation&position=6&from_view=search)'
+  caption: '[Illustration from starline on Freepik](featured.jpg)'
   focal_point: Center
   preview_only: no
 output:
@@ -37,7 +37,7 @@ links:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introduction
+## Introduction
 
 My life is composed by different groups, my family, my friends, my co-workers, my clients. etc. Each segment has their needs and their expectations. To satisfy them, I set up different forms of communication and interaction.
 Companies face the same challenges as we do. They communicate and interact with different customers. To succeed, they have to be able to identify groups of people that have similar characteristics among their customers to: 
@@ -50,16 +50,19 @@ Companies face the same challenges as we do. They communicate and interact with 
 
 **Customer segmentation** is the practice of dividing customer into groups based on similar characteristics. In this post, we perform a customer segmentation in R programming using **k-mean** algorithm. We use a Shopping mall customers data set to implement it.
 
-# Data Loading and exploratory Analysis 
-To o perform a cluster analysis, the data set should be prepared as follows: 
+## Data Preparation and Exploration
+
+**Data prep**
+
+To perform a cluster analysis, the data set should be prepared as follows: 
 
 - Columns should be the variables and Row the observations 
 - The data set should not contain any missing values or blank. Otherwise, they should be removed or estimated 
 - The data should be standardized in order to make the variables comparable. 
 
-## Data Loading and prepration 
+** Data Loading and prepration**
 
-```{r, message=FALSE}
+```{r, message=FALSE,warning=FALSE}
 # The Pacman package is used as package manager
 
 if(!require("pacman")) install.packages("pacman")
@@ -73,7 +76,7 @@ p_load(tidyverse,factoextra)
 data <- read.csv("https://raw.githubusercontent.com/hhousni/Customer_segmentation/main/Mall_Customers.csv")
 ```
 
-**Data overview**
+
 
 ```{r}
 str(data)
@@ -99,7 +102,7 @@ lapply(data, function(x) {length(which((x=="")))})
 
 The data set does not contain missing values as both NAs and blank spaces.  
 
-## Exploratory Analysis 
+**Exploratory Analysis**
 
 ```{r}
 head(data)
@@ -120,7 +123,6 @@ ggplot(data, aes(Gender, fill=Gender)) +
 
 Woman represent the majority of the Shopping mall customers. 
 
-**Age distribution** 
 
 
 ```{r}
@@ -130,14 +132,12 @@ ggplot(data, aes(Age)) + geom_histogram(binwidth = 5, breaks=seq(15,70, by=5),
                                         col="black",
                                         fill=I('blue'),
                                         alpha=.2)  + 
-  labs(title = "Histogram for Age", x="Age",y="Count")
+  labs(title = "Age distribution", x="Age",y="Count")
 
 ```
 
 Customers age is between 18 to 70 years old. The average customer is 38.85 years old and the median is 36 years old. The majority of customer are between 20 to 50 years old. 
 
-
-**Annual Income Distribution** 
 
 ```{r}
 
@@ -147,12 +147,10 @@ ggplot(data, aes(Annual.Income..k..)) + geom_histogram(binwidth = 5, breaks=seq(
                                         col="black",
                                         fill=I('blue'),
                                         alpha=.2) +
-  labs(title = "Histogram for Annual Income", x="Annual Income Class",y="Frequency")
+  labs(title = "Annual Income Distribution", x="Annual Income Class",y="Frequency")
 ```
 
 In average, the customers earn 60.56 k(\$) per year, the minimum income is 15k(\$) per year and the maximum is 137 k(\$) per year. The major part of customers earn less than 90 k(\$) per year.  
-
-**Spending Score distribution** 
 
 
 ```{r}
@@ -163,15 +161,15 @@ ggplot(data, aes(Spending.Score..1.100.)) + geom_histogram(binwidth = 5, breaks=
                                         col="black",
                                         fill=I('blue'),
                                         alpha=.2) +
-  labs(title = "Histogram for Spending Score", x="Spending Score Class",y="Frequency")
+  labs(title = "Spending Score distribution", x="Spending Score Class",y="Frequency")
 
 ```
 
 
-# Implementation of k-means
+## Implementation of k-means
 
 
-## Algorithme description 
+**Algorithm description** 
 
 
 **K-means clustering** is an unsupervised machine learning algorithm that splits unlabeled dataset into a number of pre-defined clusters (k) according to their properties. The goal of the k-means algorithm is to minimize the sum of distance between the data point and their corresponding cluster. 
@@ -186,24 +184,24 @@ k-means algorithm works as follow:
 
 **To perform the k-means algorithm, the number of cluster has to be specified in advance. Different methods can be used to select the optimal cluster number**. 
 
-**Elbow method** 
+*Elbow method* 
 
 - This method runs k-means clustering for a range of values  (for instance, by varying k from 1 to 10 ) 
 - For each value of K calculate the total within-cluster sum of square
 - Plot the curve of total within-cluster sum of square 
 - The location of a bend in the plot (knee) is an indicator of the number of clusters
     
-**Silhouette method**
+*Silhouette method*
 
 - The average silhouette method calculates the mean of silhouette observations for different k values. With the optimal number of k clusters, one can maximize the average silhouette over significant values for k clusters.
     
-**Gap statistic**
+*Gap statistic*
 
 - The gap statistic compares the total within intra-cluster variation for different values of k with their expected values under null reference distribution of the data. The estimate of the optimal clusters will be value that maximize the gap statistic. 
 
-## Slecting the Optimum Number of clusters 
+**Slecting the Optimum Number of clusters** 
 
-**Elbow method** 
+*Elbow method* 
 
 ```{r}
 p_load(purrr)
@@ -215,7 +213,7 @@ fviz_nbclust(data[,3:5], kmeans, method = "wss") + geom_vline(xintercept = 4, li
 
 The above graph seems to show a bend on the cluster number 4. We can conclude that 4 is the appropriate numbers of clusters. 
 
-**Silhouette method**
+*Silhouette method*
 
 ```{r}
 set.seed(123)
@@ -224,7 +222,7 @@ fviz_nbclust(data[,3:5], kmeans, method = "silhouette") + labs(subtitle = "Silho
 
 According to the silhouette method, 6 is the optimal number of cluster.  
 
-**Gap statistic method**
+*Gap statistic method*
 
 ```{r}
 set.seed(123)
@@ -235,7 +233,7 @@ According to the Gap statistic method, 6 is the optimal number of cluster.
 
 **Two among the three different methods of selecting the optimal number of cluster concluded that 6 is the optimal number of cluster. To implement the K-mean algorithm we are going to use 6 clusters.**
 
-# Results 
+## Results 
 
 ```{r}
 set.seed(123)
@@ -276,6 +274,6 @@ The visualization of the clusters allows to observe five facts:
 5. **Cluster 6** is regrouping the customers with high income and low spending score.
 
 
-# Conclusion 
+## Conclusion 
 
 In this post we wanted to perform a customer segmentation in R programming using k-mean algorithm. We used a Shopping mall customers data set to implement it. By using the function ***kmeans()*** from the stats package, we found that the Shopping mall customers can be split in 6 clusters. A principal component analysis allowed to have a better understanding of the clusters. We used the ***fviz_cluster()*** from the factoextra package to visualize the results. 
