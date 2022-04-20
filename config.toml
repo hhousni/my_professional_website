@@ -1,4 +1,4 @@
-baseURL = "https://housni.netlify.app"
+baseURL = "https://www.housnihassani.com" 
 theme = "hugo-apero"
 languageCode = "en"
 #title = "Hugo Apéro"
