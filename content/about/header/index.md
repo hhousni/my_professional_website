@@ -3,14 +3,15 @@
 text_align_right: false
 show_title_as_headline: false
 headline: |
-  Karibu!!!
+  
 ---
 
 <!-- this is a subheadline -->
+**Karibu!!!**
+
 Hello, I'm Housni Hassani, Karibu (welcome in Swahili) to my website. 
 
-I'm a Data scientist, Economist and R addict, passionate about Sport  and Nature. I like to use scientific methods, process, algorithm and system to extract knowledge
-and insight from structured and unstructured data. 
+I'm a Data scientist, Economist and R addict, passionate about Sport and Nature. I love using scientific methods, process, algorithm and system to extract knowledge and insight from structured and unstructured data. 
 
 
 <i class="fas fa-certificate pr2"></i>[Alteryx Designer Core Certification](https://www.credly.com/badges/2465360b-41e7-4fa7-bd71-36760be73233/public_url)  &#8729;  Alteryx  &#8729;  2021

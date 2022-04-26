@@ -127,16 +127,22 @@ pygmentsUseClasses = true  # use class names instead of directly inserting color
 
 [menu]
   # Configure header
-   [[menu.header]]
-    name = "Blog"
-    title = "Ujamaa"
-    url = "/blog/"
-    weight = 1
-  [[menu.header]]
+[[menu.header]]
     name = "About"
     title = "About Me"
     url = "/about/"
+    weight = 1
+[[menu.header]]
+    name = "Blog"
+    title = "my personal blog"
+    url = "/blog/"
     weight = 2
+[[menu.header]]
+    name = "Consulting"
+    title = "consulting"
+    url = "/consulting/"
+    weight = 3
+    
   #[[menu.header]]
   #  name = "Talks"
   #  title = "Invited Talks"
