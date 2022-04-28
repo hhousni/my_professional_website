@@ -11,7 +11,7 @@ headline: |
 
 Hello, I'm Housni Hassani, Karibu (welcome in Swahili) to my website. 
 
-I'm a Data scientist, Economist and R addict, passionate about Sport and Nature. I love using scientific methods, process, algorithm and system to extract knowledge and insight from structured and unstructured data. 
+I'm a Data scientist | Economist and R addict, passionate about Sport and Nature. I love using scientific methods, process and algorithm to extract knowledge and insights from structured and unstructured data. My interdisciplinary economics background and Data Science skills together have given me an edge in hypothesis driven development and in results interpretation. 
 
 
 <i class="fas fa-certificate pr2"></i>[Alteryx Designer Core Certification](https://www.credly.com/badges/2465360b-41e7-4fa7-bd71-36760be73233/public_url)  &#8729;  Alteryx  &#8729;  2021
