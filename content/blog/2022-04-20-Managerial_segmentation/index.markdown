@@ -1,0 +1,394 @@
+---
+title: Personalize your customer Journey With RFM segmentation, Part II
+layout: single-sidebar
+date: '2022-04-21'
+categories:
+   - Machine Learning
+   - Marketing
+   - Business Analytics
+tags:
+  - R
+  - Marketing
+slug: managerial-segmentation
+subtitle: Managerial Approach
+summary: In this post we explore how to implement a RFM segmentation in R programming.
+lastmod: 2021-05-04
+featured: yes
+draft: no
+image:
+  placement: 1
+  caption: 
+  focal_point: Center
+  preview_only: no
+output: 
+  html_document : 
+    code_folding : "hide"
+    
+    #code_folding: hide
+    #toc: yes
+    #number_sections: no
+    # toc_depth: 1
+  
+links:
+  - icon: github
+    icon_pack: fab
+    name: post materials
+    url: https://github.com/hhousni/rfm_analysis
+---
+<script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
+<link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
+<script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
+<link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
+
+
+
+## Introduction
+
+This is the the Part II of series of posts named "Personalize your customer Journey With RFM segmentation". 
+
+In the [Part I](https://www.housnihassani.com/blog/rfm-segmentation/), we have highlighted how by using RFM (Recency, Frequency, Monetary) segmentation, an eCommerce business can split their customers into sub groups of customers with similar purchases behavior. Notably to target them with the right actions. For this purpose, we have used a statistical method (Hierarchical) based on the RFM indicators and split the customers into 9 segments. We have named and given few actions plan for each segment. At the end of the part I, we have highlighted the pros and cons of the statistical method.
+
+In this Part II, we are going to show how to perform an RFM segmentation by using a managerial approach. This the best way to segment customer that required to be frequently updated.
+
+## Definition and Business Objectives 
+
+All definitions have been given in the part I. However, to be able to follow this part II without the need to read the part I, we give bellow few important definitions. 
+
+**Customer segmentation** is the process of dividing customers by specific elements E.g. demographics, behavior, geographic, etc.
+
+**RFM:**
+
+- R stands for Recency: When was the last time the customer - purchased something?
+- F stand for Frequency: What is the number of total purchases made by the customer?
+- M stands for Monetary: What is the average amount spent when purchasing something?
+
+This type of analysis will answer many questions about the online retail business. Who are the customers that spend the most? Who are the most loyal ones? Who are the customers about to churn ? etc.
+
+Answering this questions will help digital marketers to better understand their customers behaviors and create targeted marketing campaign.
+
+**About the data** 
+
+In this work, we will use the online store data set from the ucl repository available. [Here](https://archive.ics.uci.edu/ml/datasets/Online+Retail+II). The data set contains all the transactions occurring for a UK-based and registered, non-store online retail between 01/12/2009 and 09/12/2011.The company mainly sells unique all-occasion gift-ware. Many customers of the company are wholesalers."
+
+We have done all the data exploration in the [Part I](https://www.housnihassani.com/blog/rfm-segmentation/). Please refer to it for further information. 
+
+**Data loading**
+
+
+```r
+# installing and Loading packages
+if(!require("pacman")) install.packages("pacman")
+p_load(readxl,tidyverse,kableExtra)
+```
+
+
+
+```r
+# Data loading 
+o.data <- read.csv("https://raw.githubusercontent.com/hhousni/rfm_analysis/main/Online%20Retail.csv")
+# Data prep
+data <- o.data %>% 
+  select(CustomerID, Quantity, UnitPrice, InvoiceDate) %>%
+  mutate(InvoiceDate=as.Date(InvoiceDate, "%d/%m/%Y")) %>%
+  drop_na(CustomerID) %>% 
+  filter(Quantity > 0, UnitPrice > 0 )
+
+# creating the RFM indicators 
+customersQ42011 <- data%>% 
+  mutate (purchase_amount = (Quantity * UnitPrice)) %>% 
+  arrange(CustomerID) %>%
+  group_by(CustomerID,InvoiceDate) %>%
+  summarise(Sales = sum(purchase_amount)) %>%
+  mutate(datediff =as.numeric(as.Date("2011-12-10") - InvoiceDate)) %>% 
+  group_by(CustomerID) %>%
+  summarise(monetary  = mean(Sales),
+            recency   = min(datediff),
+            frequency = n(),
+            fisrt_purchase = max(datediff))
+```
+
+
+We have created and stored the RFM indicators and stored them in a new data frame called customerQ42011 which going to be used to proceed the segmentation. 
+
+## Segmentation 
+
+The managerial method for segmentation requires marketers to set rules in order to split their customers. In this paper, we choose firstly to split the online store customers by the recency indicator. In other words we choose to slice customers by when was the last time the customer made a purchase. We choose secondly to create subgroups by adding the monetary value. We choose finally to add the first purchase date to create the new active subgroup.   
+
+We assume this is a quarterly analysis that taking place one day after the last purchasing date i.e 2011-12-10. For this reason, we consider that a customer is:
+
+- **New active**, if he has made his first purchase in the last 30 days.
+- **Active high value**, if he has made at least one purchase in the last 70 days and his average order value is equal or more than £458 
+- **Active low value**, if he has made at least one purchase in the last 70 days and his average order value is less than £458  
+- **Warm high value**, if he made at least one purchase between 70 days and 162 days and his average order value was equal or more than £458.
+- **Warm high value**, if he made at least one purchase between 70 days and 162 days and his average order value was less than £458.
+- **Cold**, if he made no order in the last 162 days with at least one order in the in the last 253 days.
+- **Inactive**, if his last order was in more than 253 days.
+
+
+```r
+# Segment customers according to the rules define above. 
+customersQ42011$segment <- "NA"
+customersQ42011$segment[which(customersQ42011$recency <= 70)] = "Active"
+customersQ42011$segment[which(customersQ42011$recency <= 70 & customersQ42011$fisrt_purchase <=30)] = "New active"
+customersQ42011$segment[which(customersQ42011$segment == "Active" & customersQ42011$monetary >=458)] = "Active high value"
+customersQ42011$segment[which(customersQ42011$segment == "Active" & customersQ42011$monetary < 458)] = "Active low value"
+customersQ42011$segment[which(customersQ42011$recency <= 162 & customersQ42011$recency > 70)] = "Warm"
+customersQ42011$segment[which(customersQ42011$segment == "Warm" & customersQ42011$monetary > 458)] = "Warm high value"
+customersQ42011$segment[which(customersQ42011$segment == "Warm" & customersQ42011$monetary < 458)] = "Warm low value"
+customersQ42011$segment[which(customersQ42011$recency <= 253 & customersQ42011$recency > 162)] = "Cold"
+customersQ42011$segment[which(customersQ42011$recency > 253)] = "Inactive"
+
+#create a factor to order the segment from new to inactive customers 
+customersQ42011$segment = factor(customersQ42011$segment, levels = c("New active","Active high value","Active low value",
+                                                                     "Warm high value","Warm low value","Cold","Inactive"))
+
+#create the average profile by segment.
+customersQ42011 %>%
+  group_by(segment) %>%
+  summarise(NbCustomer = n(),
+            Monetary   = paste0("£",round(mean(monetary))),
+            Recency    = round(mean(recency)),
+            Frequency  = round(mean(frequency))) %>%
+  mutate("Percentage"  = NbCustomer/sum(NbCustomer)) %>%
+  mutate(Percentage=paste0(round(Percentage*100),"%"))%>%
+  select(segment,NbCustomer,Percentage,Monetary,Recency,Frequency)%>%
+  kbl(caption = "Average profile by segment") %>%
+  kable_styling()
+```
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>Table 1: Average profile by segment</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> segment </th>
+   <th style="text-align:right;"> NbCustomer </th>
+   <th style="text-align:left;"> Percentage </th>
+   <th style="text-align:left;"> Monetary </th>
+   <th style="text-align:right;"> Recency </th>
+   <th style="text-align:right;"> Frequency </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> New active </td>
+   <td style="text-align:right;"> 252 </td>
+   <td style="text-align:left;"> 6% </td>
+   <td style="text-align:left;"> £385 </td>
+   <td style="text-align:right;"> 16 </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Active high value </td>
+   <td style="text-align:right;"> 629 </td>
+   <td style="text-align:left;"> 14% </td>
+   <td style="text-align:left;"> £1038 </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 7 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Active low value </td>
+   <td style="text-align:right;"> 1679 </td>
+   <td style="text-align:left;"> 39% </td>
+   <td style="text-align:left;"> £263 </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Warm high value </td>
+   <td style="text-align:right;"> 218 </td>
+   <td style="text-align:left;"> 5% </td>
+   <td style="text-align:left;"> £880 </td>
+   <td style="text-align:right;"> 103 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Warm low value </td>
+   <td style="text-align:right;"> 588 </td>
+   <td style="text-align:left;"> 14% </td>
+   <td style="text-align:left;"> £246 </td>
+   <td style="text-align:right;"> 107 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Cold </td>
+   <td style="text-align:right;"> 483 </td>
+   <td style="text-align:left;"> 11% </td>
+   <td style="text-align:left;"> £461 </td>
+   <td style="text-align:right;"> 206 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Inactive </td>
+   <td style="text-align:right;"> 489 </td>
+   <td style="text-align:left;"> 11% </td>
+   <td style="text-align:left;"> £484 </td>
+   <td style="text-align:right;"> 310 </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+</tbody>
+</table>
+
+The table above show the segmentation results and the average profile for each segment. For example, On average, the active high value customers have spent £1038 and have made 7 purchases. While, on average the inactive customer spent £489 and have made 1 purchase.   
+
+From this segmentation, we can determine a certain numbers of analysis in order to better understand each segment behaviors. We can for instance interested to determine how much revenue were generated for each cluster in the Q42011
+
+
+```r
+# How much revenue is generated by each cluster in Q42011
+revenueQ42011 <- data %>%
+  filter(InvoiceDate >= "2011-10-01") %>%
+  group_by(CustomerID) %>%
+  summarise(revQ42011=sum(Quantity*UnitPrice)) %>%
+  right_join(customersQ42011, by="CustomerID") %>%
+  group_by(segment) %>%
+  summarise("revQ42011"=paste0("£ ",sum(revQ42011))) %>% replace(is.na(.), 0) %>%
+  filter(segment %in% c("New active","Active high value","Active low value")) %>% kbl(caption = "Total Q42011 revenue generated by segment") %>%
+  kable_styling()
+```
+
+
+The graph above shows the revenue generated by segment in the Q42011. We see that the active high value, the active low value and the new active have spent respectively £1,727,384, £876,921 and £115,023. 
+
+We can also be interested to know among the Q42011 active customers which one among them where inactive, cold or warm in Q32011. Knowing that can help us to know how much revenue can be expected from inactive, cold and warm customers today going tomorrow. From Here, we consider that Q42011 didn't happen. We are at the end of Q32011. And, we are doing a segmentation using the same conditions as we did in Q42011. 
+
+
+## Compare Past and Future Periods
+
+**Data prep**
+
+
+```r
+# Split the data, keep only data before 2011-10-01
+customersQ32011 <- data %>% 
+  filter(InvoiceDate < "2011-10-01") %>%
+  mutate (purchase_amount = (Quantity * UnitPrice)) %>% 
+  arrange(CustomerID) %>%
+  group_by(CustomerID,InvoiceDate) %>%
+  summarise(Sales = sum(purchase_amount)) %>%
+  mutate(datediff =as.numeric(as.Date("2011-10-02") - InvoiceDate)) %>% 
+  group_by(CustomerID) %>%
+  summarise(monetary  = mean(Sales),
+            recency   = min(datediff),
+            frequency = n(),
+            fisrt_purchase = max(datediff))
+
+# Perform segmentation in Q32011
+customersQ32011$segment <- "NA"
+customersQ32011$segment[which(customersQ32011$recency <= 70)] = "active"
+customersQ32011$segment[which(customersQ32011$recency <= 70 & customersQ32011$fisrt_purchase <=30)] = "new active"
+customersQ32011$segment[which(customersQ32011$segment == "active" & customersQ32011$monetary >=458)] = "active high value"
+customersQ32011$segment[which(customersQ32011$segment == "active" & customersQ32011$monetary < 458)] = "active low value"
+customersQ32011$segment[which(customersQ32011$recency <= 162 & customersQ32011$recency > 70)] = "warm"
+customersQ32011$segment[which(customersQ32011$segment == "warm" & customersQ32011$monetary > 458)] = "warm high value"
+customersQ32011$segment[which(customersQ32011$segment == "warm" & customersQ32011$monetary < 458)] = "warm low value"
+customersQ32011$segment[which(customersQ32011$recency <= 253 & customersQ32011$recency > 162)] = "cold"
+customersQ32011$segment[which(customersQ32011$recency > 251)] = "inactive"
+
+customersQ32011$segment = factor(customersQ32011$segment, levels = c("new active","active high value","active low value","warm high value","warm low value","cold",
+                                                                     "inactive"))
+
+customersQ32011 %>%
+  group_by(segment) %>%
+  summarise(NbCustomer = n(),
+            Monetary   = paste0("£",round(mean(monetary))),
+            Recency    = round(mean(recency)),
+            Frequency  = round(mean(frequency))) %>%
+  mutate("Percentage"  = NbCustomer/sum(NbCustomer)) %>%
+  mutate(Percentage=paste0(round(Percentage*100),"%"))%>%
+  select(segment,NbCustomer,Percentage,Monetary,Recency,Frequency)%>%
+  kbl(caption = "Average profile by segment") %>%
+  kable_styling()
+```
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>Table 2: Average profile by segment</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> segment </th>
+   <th style="text-align:right;"> NbCustomer </th>
+   <th style="text-align:left;"> Percentage </th>
+   <th style="text-align:left;"> Monetary </th>
+   <th style="text-align:right;"> Recency </th>
+   <th style="text-align:right;"> Frequency </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> new active </td>
+   <td style="text-align:right;"> 292 </td>
+   <td style="text-align:left;"> 8% </td>
+   <td style="text-align:left;"> £492 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> active high value </td>
+   <td style="text-align:right;"> 470 </td>
+   <td style="text-align:left;"> 13% </td>
+   <td style="text-align:left;"> £915 </td>
+   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> 6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> active low value </td>
+   <td style="text-align:right;"> 1143 </td>
+   <td style="text-align:left;"> 32% </td>
+   <td style="text-align:left;"> £266 </td>
+   <td style="text-align:right;"> 30 </td>
+   <td style="text-align:right;"> 5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> warm high value </td>
+   <td style="text-align:right;"> 175 </td>
+   <td style="text-align:left;"> 5% </td>
+   <td style="text-align:left;"> £1147 </td>
+   <td style="text-align:right;"> 109 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> warm low value </td>
+   <td style="text-align:right;"> 695 </td>
+   <td style="text-align:left;"> 19% </td>
+   <td style="text-align:left;"> £231 </td>
+   <td style="text-align:right;"> 112 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> cold </td>
+   <td style="text-align:right;"> 587 </td>
+   <td style="text-align:left;"> 16% </td>
+   <td style="text-align:left;"> £374 </td>
+   <td style="text-align:right;"> 204 </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> inactive </td>
+   <td style="text-align:right;"> 254 </td>
+   <td style="text-align:left;"> 7% </td>
+   <td style="text-align:left;"> £596 </td>
+   <td style="text-align:right;"> 287 </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+</tbody>
+</table>
+
+
+
+
+```r
+revenueQ42011 <- data %>% 
+  filter(InvoiceDate > "2011-10-01") %>% 
+  mutate(revenueQ42011=Quantity * UnitPrice) %>%
+  select(CustomerID,revenueQ42011) %>%
+  right_join(customersQ32011, by="CustomerID") %>%
+  group_by(segment) %>%
+  summarise(rev=paste0("£",sum(revenueQ42011, na.rm = TRUE)))%>%
+  kbl(caption = "Generated amound by segment") %>%
+  kable_styling()
+```
+
+The table 4 show the contribution of Q32011 segment in the Q42011 revenue. The Q32011 active high value customers have contributed the most in the Q42011 revenue while the cold customers contributed the less. The most important insight from this table is warm Q32011 customers have contributed about 2 times more than Q32011 new customers. 
+
+## Conclusion
+
+In this post, we wanted to show how to perform an RFM segmentation by using a managerial approach. We used recency to slice the online store database. Then we added the monetary value to better understand the customers behaviors in each segments. Then we analyse compare the past and the actual revenue to know how much revenue can be expected from each revenue in the future periods. 
