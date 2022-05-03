@@ -11,7 +11,7 @@ tags:
   - Marketing
 slug: managerial-segmentation
 subtitle: Managerial Approach
-summary: In this post we explore how to implement a RFM segmentation in R programming.
+summary: In this post we explore how to implement an RFM segmentation in R programming.
 lastmod: 2021-05-04
 featured: yes
 draft: no
