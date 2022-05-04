@@ -1,5 +1,5 @@
 ---
-title: Personalize the customer journey with the RFM segmentation, part I
+title: Personalize your customer journey with the RFM segmentation, Part I
 layout: single-sidebar
 date: '2022-04-17'
 categories:
@@ -10,7 +10,7 @@ tags:
   - Marketing
   - Business Analytics
 slug: rfm-segmentation
-subtitle: A statistical Approach
+subtitle: A statistical approach
 summary: In this post we explore how to implement a RFM segmentation R programming.
 lastmod: 2022-04-17
 featured: yes
