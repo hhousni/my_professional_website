@@ -3,15 +3,15 @@ title: Personalize your customer journey with the RFM segmentation, Part II
 layout: single-sidebar
 date: '2022-04-21'
 categories:
-   - Machine Learning
    - Marketing
    - Business Analytics
+   - Customer Insights
 tags:
-  - R
-  - Marketing
+  - RFM segmentation
+  - Customer Insights analysis
 slug: managerial-segmentation
 subtitle: A managerial approach
-summary: In this post we explore how to implement the RFM segmentation in R programming.
+summary: In this post we explore how to implement the RFM segmentation in R programming using a managerial approach.
 lastmod: 2021-05-04
 featured: yes
 draft: no
@@ -21,13 +21,10 @@ image:
   focal_point: Center
   preview_only: no
 output: 
-  html_document : 
-    code_folding : "hide"
-    
-    #code_folding: hide
-    #toc: yes
-    #number_sections: no
-    # toc_depth: 1
+  blogdown::html_page:
+    toc: yes
+    number_sections: no
+    toc_depth: 1
   
 links:
   - icon: github
@@ -41,44 +38,43 @@ links:
 <link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
 <script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
 <link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
+<script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
+<link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
 
 
 
-## Introduction
 
-This is the the Part II of series of posts named "Personalize your customer Journey With RFM segmentation". 
+This is the Part II of a two-part series named: "Personalise your customer Journey With RFM segmentation". 
 
-In the [Part I](https://www.housnihassani.com/blog/rfm-segmentation/), we have highlighted how by using RFM (Recency, Frequency, Monetary) segmentation, an eCommerce business can split their customers into sub groups of customers with similar purchases behavior. Notably to target them with the right actions. For this purpose, we have used a statistical method (Hierarchical) based on the RFM indicators and split the customers into 9 segments. We have named and given few actions plan for each segment. At the end of the part I, we have highlighted the pros and cons of the statistical method.
+An online retail wants to better understand their customers in order to perform targeted marketing actions. In others words, the eRetail business wants to know which customers are active and which ones are moving from active to inactive. Knowing that will help the online retail to create targeted marketing to keep customers active. To solve this business challenge, we will use a grouping technique called customer segmentation, and group customers by their purchase behaviors.
 
-In this Part II, we are going to show how to perform an RFM segmentation by using a managerial approach. This the best way to segment customer that required to be frequently updated.
+**Customer segmentation** is the process of dividing a group customers into subgroups using specific elements e.g. demographics, geographic, psychographic, etc. There are multitude of way to perform a customer segmentation. In this two-part series, we will focus on a popular, easy to use and effective segmentation method called **RFM segmentation** 
 
-## Definition and Business Objectives 
+[The first article](https://www.housnihassani.com/blog/rfm-segmentation/) was focused on how to implement an RFM segmentation in R using a statistical method (hierarchical clustering). In this part II, we will focus on how to perform an RFM segmentation using a managerial approach.
 
-All definitions have been given in the part I. However, to be able to follow this part II without the need to read the part I, we give bellow few important definitions. 
+## How should we split the customers? 
 
-**Customer segmentation** is the process of dividing customers by specific elements E.g. demographics, behavior, geographic, etc.
+There are infinite criteria that can be used to segment customers . However, there is a popular, an effective, and an easy-to-use segmentation method named RFM segmentation that use customers purchase behavior to group customer. In the RFM segmentation: 
 
-**RFM:**
+- R stands for Recency. When was the last time the customer - purchased something?
+- F stand for Frequency. What is the number of total purchases made by the customer?
+- M stands for Monetary. What is the average amount spent when purchasing something?
 
-- R stands for Recency: When was the last time the customer - purchased something?
-- F stand for Frequency: What is the number of total purchases made by the customer?
-- M stands for Monetary: What is the average amount spent when purchasing something?
+It’s an excellent tool for marketers to target specific customers with communications and actions that are relevant for their behavior. Most specifically, it can help companies to manage wisely their budget,to increase revenue and profit by increasing sales, to better understand their customers, to gain competitive advantage against competitors, etc.
 
-This type of analysis will answer many questions about the online retail business. Who are the customers that spend the most? Who are the most loyal ones? Who are the customers about to churn ? etc.
-
-Answering this questions will help digital marketers to better understand their customers behaviors and create targeted marketing campaign.
+## How can we perform the RFM segmentation in R ?  
 
 **About the data** 
 
-In this work, we will use the online store data set from the ucl repository available. [Here](https://archive.ics.uci.edu/ml/datasets/Online+Retail+II). The data set contains all the transactions occurring for a UK-based and registered, non-store online retail between 01/12/2009 and 09/12/2011.The company mainly sells unique all-occasion gift-ware. Many customers of the company are wholesalers."
+In this article, we will use the online store data set from the UCL repository available. [Here](https://archive.ics.uci.edu/ml/datasets/Online+Retail+II). The data set contains all the transactions occurring for a UK-based and registered, non-store online retail between 01/12/2009 and 09/12/2011.The company mainly sells unique all-occasion gift-ware. Many customers of the company are wholesalers."
 
-We have done all the data exploration in the [Part I](https://www.housnihassani.com/blog/rfm-segmentation/). Please refer to it for further information. 
+We have done all the data exploration in the [Part I](https://www.housnihassani.com/blog/rfm-segmentation/). Please refer to it for further informations. 
 
 **Data loading**
 
 
 ```r
-# installing and Loading packages
+# install and Load the relevant packages
 if(!require("pacman")) install.packages("pacman")
 p_load(readxl,tidyverse,kableExtra)
 ```
@@ -95,7 +91,7 @@ data <- o.data %>%
   drop_na(CustomerID) %>% 
   filter(Quantity > 0, UnitPrice > 0 )
 
-# creating the RFM indicators 
+# create the RFM indicators 
 customersQ42011 <- data%>% 
   mutate (purchase_amount = (Quantity * UnitPrice)) %>% 
   arrange(CustomerID) %>%
@@ -107,22 +103,36 @@ customersQ42011 <- data%>%
             recency   = min(datediff),
             frequency = n(),
             fisrt_purchase = max(datediff))
+
+head(customersQ42011)
+```
+
+```
+## # A tibble: 6 x 5
+##   CustomerID monetary recency frequency fisrt_purchase
+##        <int>    <dbl>   <dbl>     <int>          <dbl>
+## 1      12346   77184.     326         1            326
+## 2      12347     616.       3         7            368
+## 3      12348     449.      76         4            359
+## 4      12349    1758.      19         1             19
+## 5      12350     334.     311         1            311
+## 6      12352     358.      37         7            297
 ```
 
 
 We have created and stored the RFM indicators and stored them in a new data frame called customerQ42011 which going to be used to proceed the segmentation. 
 
-## Segmentation 
+## Customer Segmentation 
 
-The managerial method for segmentation requires marketers to set rules in order to split their customers. In this paper, we choose firstly to split the online store customers by the recency indicator. In other words we choose to slice customers by when was the last time the customer made a purchase. We choose secondly to create subgroups by adding the monetary value. We choose finally to add the first purchase date to create the new active subgroup.   
+The managerial method for segmentation requires marketers to set rules in order to split their customers. In this article, we choose firstly to split the online store customers by the recency indicator. In other words, we choose to slice customers by when was the last time the customer made a purchase. Then, w e choose secondly to create subgroups by adding the monetary value. We choose finally to add the first purchase date to create the new active subgroup.
 
-We assume this is a quarterly analysis that taking place one day after the last purchasing date i.e 2011-12-10. For this reason, we consider that a customer is:
+We assume that this is a quarterly analysis, taking place one day after the last purchasing date i.e 2011-12-10. We consider that a customer is:
 
 - **New active**, if he has made his first purchase in the last 30 days.
 - **Active high value**, if he has made at least one purchase in the last 70 days and his average order value is equal or more than £458 
 - **Active low value**, if he has made at least one purchase in the last 70 days and his average order value is less than £458  
 - **Warm high value**, if he made at least one purchase between 70 days and 162 days and his average order value was equal or more than £458.
-- **Warm high value**, if he made at least one purchase between 70 days and 162 days and his average order value was less than £458.
+- **Warm low value**, if he made at least one purchase between 70 days and 162 days and his average order value was less than £458.
 - **Cold**, if he made no order in the last 162 days with at least one order in the in the last 253 days.
 - **Inactive**, if his last order was in more than 253 days.
 
@@ -141,8 +151,7 @@ customersQ42011$segment[which(customersQ42011$recency <= 253 & customersQ42011$r
 customersQ42011$segment[which(customersQ42011$recency > 253)] = "Inactive"
 
 #create a factor to order the segment from new to inactive customers 
-customersQ42011$segment = factor(customersQ42011$segment, levels = c("New active","Active high value","Active low value",
-                                                                     "Warm high value","Warm low value","Cold","Inactive"))
+customersQ42011$segment = factor(customersQ42011$segment, levels = c("New active","Active high value","Active low value","Warm high value","Warm low value","Cold","Inactive"))
 
 #create the average profile by segment.
 customersQ42011 %>%
@@ -230,14 +239,14 @@ customersQ42011 %>%
 </tbody>
 </table>
 
-The table above show the segmentation results and the average profile for each segment. For example, On average, the active high value customers have spent £1038 and have made 7 purchases. While, on average the inactive customer spent £489 and have made 1 purchase.   
+The table above show results and the average profile by segment. For example, on average, the active high-value customers have spent £1038 and have made 7 purchases. While, on average the inactive customer spent £489 and have made 1 purchase.   
 
-From this segmentation, we can determine a certain numbers of analysis in order to better understand each segment behaviors. We can for instance interested to determine how much revenue were generated for each cluster in the Q42011
+From this, we can determine a certain amount of analysis to understand each segment behaviour. We can for instance interested to determine how much revenue is generated by cluster in the Q42011
 
 
 ```r
 # How much revenue is generated by each cluster in Q42011
-revenueQ42011 <- data %>%
+data %>%
   filter(InvoiceDate >= "2011-10-01") %>%
   group_by(CustomerID) %>%
   summarise(revQ42011=sum(Quantity*UnitPrice)) %>%
@@ -248,13 +257,38 @@ revenueQ42011 <- data %>%
   kable_styling()
 ```
 
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>Table 2: Total Q42011 revenue generated by segment</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> segment </th>
+   <th style="text-align:left;"> revQ42011 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> New active </td>
+   <td style="text-align:left;"> £ 115023.66 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Active high value </td>
+   <td style="text-align:left;"> £ 1727384.12 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Active low value </td>
+   <td style="text-align:left;"> £ 876921.18 </td>
+  </tr>
+</tbody>
+</table>
 
-The graph above shows the revenue generated by segment in the Q42011. We see that the active high value, the active low value and the new active have spent respectively £1,727,384, £876,921 and £115,023. 
 
-We can also be interested to know among the Q42011 active customers which one among them where inactive, cold or warm in Q32011. Knowing that can help us to know how much revenue can be expected from inactive, cold and warm customers today going tomorrow. From Here, we consider that Q42011 didn't happen. We are at the end of Q32011. And, we are doing a segmentation using the same conditions as we did in Q42011. 
+The table above shows the total revenue generated by segment in the Q42011. We see that the active high value, the active low value and the new active have generated respectively £1,727,384, £876,921 and £115,023. 
 
+We can go further by trying to know how much Q42011 revenue was generated by inactive, cold or warm Q32011 customers. Knowing that can help us to know how much revenue can be expected from inactive, cold and warm customers today going tomorrow.  
 
-## Compare Past and Future Periods
+## Compare past and future periods
+
+From Here, we consider that Q42011 didn't happen. We are at the end of Q32011. And, we are doing a segmentation using the same conditions as we did in Q42011.
 
 **Data prep**
 
@@ -286,8 +320,7 @@ customersQ32011$segment[which(customersQ32011$segment == "warm" & customersQ3201
 customersQ32011$segment[which(customersQ32011$recency <= 253 & customersQ32011$recency > 162)] = "cold"
 customersQ32011$segment[which(customersQ32011$recency > 251)] = "inactive"
 
-customersQ32011$segment = factor(customersQ32011$segment, levels = c("new active","active high value","active low value","warm high value","warm low value","cold",
-                                                                     "inactive"))
+customersQ32011$segment = factor(customersQ32011$segment, levels = c("new active","active high value","active low value","warm high value","warm low value","cold","inactive"))
 
 customersQ32011 %>%
   group_by(segment) %>%
@@ -303,7 +336,7 @@ customersQ32011 %>%
 ```
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
-<caption>Table 2: Average profile by segment</caption>
+<caption>Table 3: Average profile by segment</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> segment </th>
@@ -390,7 +423,7 @@ data %>%
 ```
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
-<caption>Table 3: Q42011 revenue generated by Q32011 segment</caption>
+<caption>Table 4: Q42011 revenue generated by Q32011 segment</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> segment </th>
@@ -429,8 +462,8 @@ data %>%
 </tbody>
 </table>
 
-The table 4 show the contribution of Q32011 segment in the Q42011 revenue. The Q32011 active high value customers have contributed the most in the Q42011 revenue while the cold customers contributed the less. The most important insight from this table is warm Q32011 customers have contributed about 2 times more than Q32011 new customers. 
+The table 4 shows the contribution of Q32011 segments in the Q42011 revenue. The Q32011 active high-value customers have contributed the most in the Q42011 revenue while the cold customers have contributed the less. The most important insight from this table is that Q32011 warm customers have contributed about twice more than Q32011 new customers. This insight can be used to prioritise and to target each segment. 
 
 ## Conclusion
 
-In this post, we wanted to show how to perform an RFM segmentation by using a managerial approach. We used recency to slice the online store database. Then we added the monetary value to better understand the customers behaviors in each segments. Then we analyse compare the past and the actual revenue to know how much revenue can be expected from each revenue in the future periods. 
+In this post, we wanted to show how to perform an RFM segmentation by using a managerial approach. We used recency to slice the online store database. Then we added the monetary value to understand the customer’s behaviours in each segment. Then we compare the past and the actual revenue to know how much revenue can be expected from each cluster in the future periods. And we have found that the eRetail can expect about twice more revenue from warm customers compared to new customers.  

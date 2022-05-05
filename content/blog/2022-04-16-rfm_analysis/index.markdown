@@ -1,17 +1,19 @@
 ---
-title: Personalize the customer journey with the RFM segmentation 
+title: Personalize your customer journey with the RFM segmentation, Part I
 layout: single-sidebar
-date: '2022-04-17'
+date: '2022-04-01'
 categories:
+  - Marketing
   - Business Analytics
-  - Marketing
+  - Customer Insights
+  - Machine Learning
 tags:
-  - R
-  - Marketing
+  - RFM segmentation
+  - Customer Insights Anlysis
   - Business Analytics
 slug: rfm-segmentation
-subtitle: A statistical Approach
-summary: In this post we explore how to implement a RFM segmentation R programming.
+subtitle: A statistical approach
+summary: In this post we explore how to implement a RFM segmentation R programming using a statistical method.
 lastmod: 2022-04-17
 featured: yes
 draft: no
@@ -36,63 +38,55 @@ links:
 
 
 
+ 
+This is the Part II of a two-part series named: "Personalise your customer Journey With RFM segmentation". 
 
+An online retail wants to better understand their customers in order to perform targeted marketing actions. In others words, the eRetail business wants to know which customers are active and which ones are moving from active to inactive. Knowing that will help the online retail to create targeted marketing to keep customers active. To solve this business challenge, we will use a grouping technique called customer segmentation, and group customers by their purchase behaviors.
 
-## Introduction 
+**Customer segmentation** is the process of dividing a group customers into subgroups using specific elements e.g. demographics, geographic, psychographic, etc. There are multitude of way to perform a customer segmentation. In this two-part series, we will focus on a popular, easy to use and effective segmentation method called **RFM segmentation**
 
-During the last decade, we have seen the rise of Big Data. Companies have developed tools to collect, structure and store them. Today, we are seeing that having massive amounts data is good but not enough. Indeed, business who are taking comparative advantage are the one which collect, structure, store data AND transform them to actionable insights.  
+This topic will be a two-part series:
 
-Many businesses don"t use their data efficiently, However, there are simple, easy to use but powerful methods that can help business to make better decisions. One of them is the RFM segmentation. Today, we explore an online retail can transform it data to actionable insights.  use it data to  how to use an online store database to perform a customer segmentation using the RFM analysis in R. There are different methods to perform it. In this case, we have chosen the hierarchical method.
+- Part 1: This article will focus on RFM segmentation using a statistical method (hierarchical clustering).
+- Part 2: The next article in the series will focus on RFM segmentation using managerial approach  
 
-## What is RFM Segmentation?
+## How should we split my customers? 
 
-The RFM segmentation is the most popular, easy to use and effective segmentation method. RFM stands for Recency, Frequency, Monetary:
+There are infinite criteria that can be used to segment customers . However, there is a popular, an effective, and an easy-to-use segmentation method named RFM segmentation that use customers purchase behavior to group customer. In the RFM segmentation: 
 
-- **Recency:** The freshness of the customer last purchase. It’s accepted that customers who recently made a purchase are more likely to purchase again. 
-- **Frequency:** The frequency of the customer transaction. In other words, how often did the customer make a purchase in a period. It’s accepted that customers who purchased once are more likely to purchase again. 
-- **Monetary:** The money spent by the customer in a period. It’s accepted that customers who have spent more money in the past are more likely to spend money in the future.
+- R stands for Recency. When was the last time the customer - purchased something?
+- F stand for Frequency. What is the number of total purchases made by the customer?
+- M stands for Monetary. What is the average amount spent when purchasing something?
 
-The idea behind this analysis is to segment customers based: 
+It’s an excellent tool for marketers to target specific customers with communications and actions that are relevant for their behavior. Most specifically, it can help companies to manage wisely their budget,to increase revenue and profit by increasing sales, to better understand their customers, to gain competitive advantage against competitors, etc.
 
-How recently have they purchased?
-How often have they purchased? 
-How much money have they spent? 
+## How can we perform the RFM segmentation in R ?  
 
-It’s an excellent tool for marketers to target specific customers with communications and actions that are relevant for their behaviour. Most specifically, it can help companies to manage wisely their budget,to increase revenue and profit by increasing sales, to better understand their customers, to gain competitive advantage against competitors, etc. 
+**About the data** 
 
-## How to implement it in R ? 
+In this work, we will use the online store data set from the UCL repository available. [Here](https://archive.ics.uci.edu/ml/datasets/Online+Retail+II). The data set contains all the transactions occurring for a UK-based and registered, non-store online retail between 01/12/2009 and 09/12/2011.The company mainly sells unique all-occasion gift-ware. Many customers of the company are wholesalers."
 
-To implement the RFM segmentation in R, we are going to use the online retail II dataset from the ucl repository available. [Here](https://archive.ics.uci.edu/ml/datasets/Online+Retail+II)
-"This Online Retail II data set contains all the transactions occurring for a UK-based and registered, non-store online retail between 01/12/2009 and 09/12/2011.The company mainly sells unique all-occasion gift-ware. Many customers of the company are wholesalers."
 
 **Step 1: Installing the relevant pacakages and calling their libraries**
 
 The **pacman** package is used as package manager. It combines functionality of base library related functions into intuitively named function. 
 
 ```r
-# Install the pacman package:
+# install and Load the relevant packages
 
 if(!require("pacman")) install.packages("pacman")
-```
-
-The *p_load* function is a wrapper for library and require. It checks to see if a package is installed, if not it attempts to install the package from CRAN and/or any other repository in the pacman repository list.
-
-```r
-# Install and load the relevant package:
-
 p_load(readxl,tidyverse,factoextra,parameters,gridExtra,kableExtra,NbClust)
 ```
+
 
 **Step 2: Data Overview**
 
 
 ```r
 # Charge the data set:
-
 o.data <- read.csv("https://raw.githubusercontent.com/hhousni/rfm_analysis/main/Online%20Retail.csv")
 
 # Quick look on the structure of the data set:
-
 str(o.data)
 ```
 
@@ -124,13 +118,10 @@ The data set contains 9 variables :
 
 **Data Prep**
 
-As mentioned earlier, to perform the RFM segmentation, we need to determine for each customer it **recency**, **frequency** and, **monetary** values. As we can see, the data set doesn't contain these variables. They need to be calculated. 
-
-The first step of the data prep is to select the relevant variables necessary to determine the RFM indicators.
+As mentioned earlier, to perform the RFM segmentation, we need to determine for each customer it **recency**, **frequency** and, **monetary** values. As we can see, the data set doesn't contain these variables. They need to be calculated. The first step of the data prep is to select the relevant variables necessary to determine the RFM indicators.
 
 ```r
 # Select the relevant variables:
-
 dataprep0 <- o.data %>% 
   select(CustomerID, Quantity, UnitPrice, InvoiceDate) %>%
   mutate(InvoiceDate=as.Date(InvoiceDate, "%d/%m/%Y")) %>%
@@ -155,7 +146,6 @@ The table above shows negative values in the quantity and the UnitPrice variable
 
 ```r
 # Look for missing values:
-
 sapply(dataprep0, function (x) sum(is.na(x)))
 ```
 
@@ -163,35 +153,29 @@ sapply(dataprep0, function (x) sum(is.na(x)))
 ##  CustomerID    Quantity   UnitPrice InvoiceDate 
 ##      119449           0           0           0
 ```
+
 As we can see, CustommerID contains 119449. CustomerID is an important variable to interpret the results and to implement the post hoc Marketing strategic actions. Without it the analyse is useless. It's necessary to remove the customers without ID to proceed.  
 
 
 ```r
 # remove the missing values and the negative value in the quantity and UnitPrice
-
 dataprep1 <- dataprep0 %>%
   drop_na(CustomerID) %>% 
   filter(Quantity > 0, UnitPrice > 0 )
 ```
 
-The third step of the data prep is to create *rencey*, *frequency* and, *monetary* indicators.
+Create *rencey*, *frequency* and, *monetary* indicators.
 
 
 ```r
 # Create the relevant Monetary
-
 dataprep2 <- dataprep1  %>% 
   mutate (purchase_amount = (Quantity * UnitPrice)) %>% 
   arrange(CustomerID) %>%
   group_by(CustomerID,InvoiceDate) %>%
   summarise(Sales = sum(purchase_amount)) 
-```
 
-.
-
-```r
-# Show the latest date in the data set:
-
+# Show the lastest date in the data set. This value is going to be used to calculate recency
 print (max(dataprep2$InvoiceDate))
 ```
 
@@ -199,10 +183,8 @@ print (max(dataprep2$InvoiceDate))
 ## [1] "2011-12-09"
 ```
 
-
 ```r
-# Create the recency variable, we consider that this study was conduct one day after the last purchase in the data set.
-
+# Create recency variable, we consider this study to be conducted one day after the last purchase in the data set. Create the Monetary and frequency. 
 f.dataprep <- dataprep2 %>%
   mutate(datediff =as.numeric(as.Date("2011-12-10") - InvoiceDate)) %>% 
   group_by(CustomerID) %>%
@@ -210,12 +192,10 @@ f.dataprep <- dataprep2 %>%
             recency   = min(datediff),
             frequency = n())
 
-# Store the Customer ID varible to use it later
-
+# Store the Customer ID variable to use it later 
 customerID <- f.dataprep$CustomerID
 
-# Select the data with only the marketing indicators 
-
+# Select the data with only the marketing indicators
 rfm.data <- f.dataprep [,c("monetary", "recency", "frequency")]
 ```
 
@@ -306,7 +286,7 @@ set.seed(12345)
 optimalCluster <- NbClust(scaledata, method = "average")
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 
 ```
 ## *** : The Hubert index is a graphical method of determining the number of clusters.
@@ -316,7 +296,7 @@ optimalCluster <- NbClust(scaledata, method = "average")
 ## 
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-2.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-2.png" width="672" />
 
 ```
 ## *** : The D index is a graphical method of determining the number of clusters. 
@@ -348,28 +328,6 @@ factoextra::fviz_nbclust(optimalCluster) + theme_minimal() + ggtitle("NbClust's 
 ```
 
 ```
-## Warning in if (class(best_nc) == "numeric") print(best_nc) else if
-## (class(best_nc) == : the condition has length > 1 and only the first element
-## will be used
-```
-
-```
-## Warning in if (class(best_nc) == "matrix") .viz_NbClust(x, print.summary, : the
-## condition has length > 1 and only the first element will be used
-```
-
-```
-## Warning in if (class(best_nc) == "numeric") print(best_nc) else if
-## (class(best_nc) == : the condition has length > 1 and only the first element
-## will be used
-```
-
-```
-## Warning in if (class(best_nc) == "matrix") {: the condition has length > 1 and
-## only the first element will be used
-```
-
-```
 ## Among all indices: 
 ## ===================
 ## * 2 proposed  0 as the best number of clusters
@@ -387,7 +345,7 @@ factoextra::fviz_nbclust(optimalCluster) + theme_minimal() + ggtitle("NbClust's 
 ## * According to the majority rule, the best number of clusters is  9 .
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-3.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-3.png" width="672" />
 
 **The *NbClust* suggested 9 as optimal cluster number**
 
@@ -412,7 +370,7 @@ plot (hc, hang = -1, labels = FALSE)
 rect.hclust(hc, k = 9)
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
 
 
 
@@ -563,7 +521,7 @@ In this exercise, we wanted to perform an RFM segmentation using the statistical
 
 **Limites**
 
-The statistical approach for segmentation is a good tool BUT not every time. Indeed, it’s very useful when we need a one-shot segmentation i.e. when it doesn’t require frequents update. But when the segmentation needs to be updated frequently. It’s a highly costly method. And that is what we're faced here with the online store dataset. In facts, for an online store, customer data are frequently updated. Customers’ behaviour change frequently: some of them disappear, new customers are acquired, some customers change segment, etc. In this scenario, the statistical approach isn't the best option. Instead, companies can use a Managerial Segmentation (set of rules) to perform the RFM segmentation.    
+The statistical approach for segmentation is a good tool BUT not every time. Indeed, it’s very useful when we need a one-shot segmentation i.e. when it doesn’t require frequents update. But when the segmentation needs to be updated frequently. It’s a highly costly method. And that is what we're faced here with the online store dataset. In facts, for an online store, customer data are frequently updated. Customers’ behaviour change frequently: some of them disappear, new customers are acquired, some customers change segment, etc. In this scenario, the statistical approach isn't the best option. Instead, companies can use a Managerial Segmentation (set of rules) to perform the RFM segmentation. In one next post, we are going to show how to impplement a managerial segmentation in R.    
 
 
 
