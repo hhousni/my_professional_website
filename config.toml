@@ -81,7 +81,7 @@ pygmentsUseClasses = true  # use class names instead of directly inserting color
   # Configuration of https://utteranc.es/ for comments
   [params.utterances]
     use_utterances = true
-    repo_name = "spcanelon/silvia"
+    repo_name = "hhousni/my_professional_website"
     issue_term = "title" # url, pathname, or title
     theme = "boxy-light" # TODO: change to "preferred-color-scheme" when you enable dark mode toggle
     label = "comments :crystal_ball:"
