@@ -5,12 +5,12 @@ description: "I'm a Data Scientist, Economist and R addict. I love solving real-
 images:
   - img/fibo.jpg
 image_alt_text: "Photo of stairs representing fibonaci diagram"
-image_left: false
-text_align_left: false
+image_left: FALSE
+text_align_left: TRUE
 show_social_links: true # specify social accounts in site config
 show_action_link: true
 action_link: /about
-action_label: "Learn more about me &rarr;"
+action_label: "More about me &rarr;"
 action_type: text # text, button
 type: home
 ---
