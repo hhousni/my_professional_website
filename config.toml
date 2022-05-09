@@ -40,7 +40,7 @@ pygmentsUseClasses = true  # use class names instead of directly inserting color
   description = "Personal website of Housni Hassani"
   favicon = "/img/ujamaa.ico"
   logo = "/img/ujamaa.svg"
-  mainSections = ["blog", "project"]
+  mainSections = ["about", "blog"]
   navallcaps = true
   # show/hide social icons in site header & footer
   # configure social icons and links below in [[params.social]]
@@ -49,7 +49,7 @@ pygmentsUseClasses = true  # use class names instead of directly inserting color
   # Default image for social sharing and search engines. 
   # Place image file in `static` folder and specify image name here.
   #sharing_image = "/img/papillons.jpg"
-  sharing_image = "/img/LakePink_Social.png"
+  sharing_image = "/img/ujamaa.png"
   # Twitter username (without @). Used when a visitor shares your site on Twitter.
   twitter = ""
   
@@ -63,7 +63,7 @@ pygmentsUseClasses = true  # use class names instead of directly inserting color
   # the custom scss file must be in the assets/ folder
   # add the filename name here, without extension
   # to use hex colors instead of named tachyons colors, include "hex" in filename
-  custom_theme = "silvia-hex"
+  custom_theme = "housni-hex"
   
   # use an embedded font-family
   # serif options: Fraunces / EB Garamond / Bitter

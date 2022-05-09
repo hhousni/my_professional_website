@@ -6,7 +6,7 @@ images:
   - img/fibo.jpg
 image_alt_text: "Photo of stairs representing fibonaci diagram"
 image_left: FALSE
-text_align_left: TRUE
+text_align_left: FALSE
 show_social_links: true # specify social accounts in site config
 show_action_link: true
 action_link: /about
