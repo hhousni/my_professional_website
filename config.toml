@@ -63,7 +63,7 @@ pygmentsUseClasses = true  # use class names instead of directly inserting color
   # the custom scss file must be in the assets/ folder
   # add the filename name here, without extension
   # to use hex colors instead of named tachyons colors, include "hex" in filename
-  custom_theme = "silvia-hex"
+  custom_theme = "housni-hex"
   
   # use an embedded font-family
   # serif options: Fraunces / EB Garamond / Bitter
