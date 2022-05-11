@@ -12,7 +12,7 @@ intro: |
         </font>
   </div>
     <br></br>
-  Hello, I'm <b>Housni Hassani</b>, Karibu (welcome in Swahili). I'm a Data scientist | Economist and R addict, passionate about Sport and Nature. I use scientific methods, process and algorithm to extract knowledge and insights from Data. Some topics of Interest but are not limited to Data Analytics, Machine Learning, NLP, Marketing, Economics (Small Island developing states). I also love teaching mathematics and statics. 
+  Hello, I’m Housni Hassani, Karibu (welcome in Swahili). I’m a Data scientist | Economist and R addict, passionate about Sport and Nature. I use scientific methods, process and algorithms to extract knowledge and insights from data. Some topics of interest but are not limited to Data Analytics, Machine Learning, NLP, Marketing, Economics (Small Island developing states). I also love teaching mathematics and statics. 
       <br></br>
       
   I was born in [Comoro Islands](https://en.wikipedia.org/wiki/Comoro_Islands), grew up in France and, currently living in Sydney, Australia. In my free time, you can find in an outdoor gym doing Calisthenics, on the beach or in a park doing slackline or reading a book.    

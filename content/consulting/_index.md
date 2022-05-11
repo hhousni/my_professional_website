@@ -6,7 +6,7 @@ show_header: true
 sidebar_left: true
 type: about
 cascade:
-  type: about
+  type: consulting
 # Keep this! Do not edit.
 cascade:
   headless: true
