@@ -3,7 +3,7 @@ title: "About"
 description: |
   website for sharing about data science, economics and marketing
 show_header: true
-sidebar_left: false
+sidebar_left: true
 type: about
 cascade:
   type: about
