@@ -69,14 +69,14 @@ pygmentsUseClasses = true  # use class names instead of directly inserting color
   # serif options: Fraunces / EB Garamond / Bitter
   # sans-serif options: Commissioner / Alegreya Sans / Metropolis / Red Hat Text
   # if you import your own fonts, name them here too
-  customtextFontFamily = "Red Hat Text"
-  customheadingFontFamily = "Petrona" # Petrona
+  customtextFontFamily = ""
+  customheadingFontFamily = "" # Petrona
   # alternatively, leave empty and select basic font options: sans-serif or serif
   # for more http://tachyons.io/docs/typography/font-family/
   textFontFamily = "sans-serif"
   #headingFontFamily = "serif"
   #textFontFamily = "avenir"
-  headingFontFamily = "athelas"
+  headingFontFamily = "Bitter"
 
   # Configuration of https://utteranc.es/ for comments
   [params.utterances]
@@ -131,17 +131,17 @@ pygmentsUseClasses = true  # use class names instead of directly inserting color
     name = "About"
     title = "About Me"
     url = "/about/"
-    weight = 1
+    weight = 3
 [[menu.header]]
     name = "Blog"
     title = "my personal blog"
     url = "/blog/"
-    weight = 2
+    weight = 1
 [[menu.header]]
     name = "Consulting"
     title = "consulting"
     url = "/consulting/"
-    weight = 3
+    weight = 2
     
   #[[menu.header]]
   #  name = "Talks"

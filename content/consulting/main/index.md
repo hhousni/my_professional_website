@@ -25,7 +25,7 @@ intro: |
     <br></br>
       <i class='fas fa-chart-pie' style='font-size:36px'></i></i>
     <br></br>
-      Unlock the power of your data. We assist organisations in using data to drive decisions, create impacts and transform their businesses. By manipulating and merging data sources, building visualisations, building and interpreting machine learning models.</i>
+      Unlock the power of your data. I assist organisations in using data to drive decisions, create impacts and transform their businesses. By manipulating and merging data sources, building visualisations, building and interpreting machine learning models.</i>
     <br></br>
       <b>
         Economics
@@ -33,7 +33,7 @@ intro: |
   <br></br>
     <i class='fas fa-chart-line' style='font-size:36px'></i>
   <br></br>
-     We collaborate with government policy makers, community leaders, and business industry experts to provide strategic consulting. We can lead your research assignments by analyzing data from a wide variety of source, writing and preparing reports and presentations and assisting with business development.
+     I collaborate with government policy makers, community leaders, and business industry experts to provide strategic consulting. I can lead your research assignments by analyzing data from a wide variety of source, writing and preparing reports and presentations and assisting with business development.
   <br></br>
     <b>
       Teaching
@@ -41,7 +41,7 @@ intro: |
   <br></br>
     <i class='fas fa-chalkboard-teacher' style='font-size:36px'></i>
   <br></br>
-    We can help you to develop your skills in the following technologies:
+    I can help you developing your skills in the following technologies:
   </div>
   <br></br>
     <ul>
