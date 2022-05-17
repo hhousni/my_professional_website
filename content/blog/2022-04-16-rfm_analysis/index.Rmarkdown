@@ -39,7 +39,7 @@ links:
 knitr::opts_chunk$set(echo = TRUE)
 ```
  
-This is the Part II of a two-part series named: "Personalise your customer Journey With RFM segmentation". 
+This is the Part I of a two-part series named: "Personalise your customer Journey With RFM segmentation". 
 
 An online retail wants to better understand their customers in order to perform targeted marketing actions. In others words, the eRetail business wants to know which customers are active and which ones are moving from active to inactive. Knowing that will help the online retail to create targeted marketing to keep customers active. To solve this business challenge, we will use a grouping technique called customer segmentation, and group customers by their purchase behaviors.
 
