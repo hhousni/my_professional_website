@@ -1,6 +1,6 @@
 ---
 ## Configure sidebar content in narrow column
-author: "Consulting"
+author: "DataKweli"
 role: "Data & Analytics <br></br> Economics<br></br> Teaching"
 avatar_shape: square # circle, square, rounded, leave blank to exclude
 show_social_links: true # specify social accounts in site config
