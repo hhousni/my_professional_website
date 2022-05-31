@@ -6,13 +6,16 @@ use_featured: false # if false, use most recent by date
 number_categories: 3 # set to zero to exclude
 show_intro: true
 intro: |
-  <div align="justify">
-   <font size="6">
-          Karibu
+  <div align="Center">
+  <b> 
+   <font size="8">
+          KARIBU
         </font>
- 
+    </b>
+     </div>
+  <div align="justify">
     <br></br>
-  Hello, I’m Housni Hassani, Karibu (welcome in Swahili). I’m a Data Scientist | Economist and R addicts, passionate about Sport and Nature. I use scientific methods, process and algorithms to extract knowledge and insights from data. Some topics of interest but aren’t limited to Data Analytics, Machine Learning, NLP, Marketing, Economics (Small Island developing states). I also love teaching mathematics and statics.
+  Hello, Karibu (welcome in Swahili). I’m Housni Hassani a Data Scientist | Economist and R addicts, passionate about Sport and Nature. I use scientific methods, process and algorithms to extract knowledge and insights from data. Some topics of interest but aren’t limited to Data Analytics, Machine Learning, NLP, Marketing, Economics (Small Island developing states). I also love teaching mathematics and statics.
       <br></br>
       
   I was born in [Comoro Islands](https://en.wikipedia.org/wiki/Comoro_Islands), grew up in France and, currently living in Sydney, Australia. In my free time, you can find in an outdoor gym doing calisthenics, on the beach or in a park doing slackline or reading a book.    
@@ -21,7 +24,7 @@ intro: |
      
    <i class="fas fa-certificate pr2"></i> [Alteryx Designer Core Certification](https://www.credly.com/badges/2465360b-41e7-4fa7-bd71-36760be73233/public_url) &#8729;  Alteryx  &#8729;  2022</i>
     <br></br>
-     <i class="fas fa-graduation-cap pr2"></i>MSc. in Big data and Marketing manager  &#8729;
+     <i class="fas fa-graduation-cap pr2"></i>MSc. in Data Analytics and Marketing manager  &#8729;
     INSEEC Business School, France  &#8729;  2019
     <br></br>
     <i class="fas fa-graduation-cap pr2"></i>MA. in Economics  &#8729;
