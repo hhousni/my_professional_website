@@ -15,10 +15,10 @@ intro: |
      </div>
   <div align="justify">
     <br></br>
-  Hello, Karibu (welcome in Swahili). I’m Housni Hassani a Data Scientist | Economist and R addicts, passionate about Sport and Nature. I use scientific methods, process and algorithms to extract knowledge and insights from data. Some topics of interest but aren’t limited to Data Analytics, Machine Learning, NLP, Marketing, Economics (Small Island developing states). I also love teaching mathematics and statics.
+  Hello, Karibu (welcome in Swahili). I’m Housni Hassani a Data Scientist | Economist and R addict. I use scientific methods, processes and algorithms to extract knowledge and insights from data.I also build data analytics tools for the community. Some topics of interest but aren’t limited to Data Analytics, Machine Learning, NLP, Marketing, Economics (Small Island developing states).
       <br></br>
       
-  I was born in [Comoro Islands](https://en.wikipedia.org/wiki/Comoro_Islands), grew up in France and, currently living in Sydney, Australia. In my free time, you can find in an outdoor gym doing calisthenics, on the beach or in a park doing slackline or reading a book.    
+  I was born in [Comoro Islands](https://en.wikipedia.org/wiki/Comoro_Islands), grew up in France and, currently living in Sydney, Australia. In my free time, you can find me in an outdoor gym doing calisthenics, on the beach or in a park doing Slackline.    
       <br></br><br></br>
    </div>
      
@@ -37,7 +37,7 @@ intro: |
   
 show_outro: true
 outro: |
-  <i class="fas fa-lightbulb pr2"></i> Economist | Data Scientist<br>interested in all things data 
+  <i class="fas fa-lightbulb pr2"></i> Data Scientist | Economist<br>interested in all things data 
 ---
 
 ** index doesn't contain a body, just front matter above.
