@@ -17,30 +17,40 @@ intro: |
         <font size="4">
           Do you have a project in mind? Get in touch, I would love to help you see and understand your data.
         </font>
-      </b>
-    <br></br>
+        </b>
+    <br><br><br><br>
       <b>
         Data & Analytics
       </b>
-    <br></br>
+        <br></br>
       <i class='fas fa-chart-pie' style='font-size:36px'></i></i>
-    <br></br>
-      Unlock the power of your data. I assist organisations in using data to drive decisions, create impacts and transform their businesses. By manipulating and merging data sources, building visualisations, building and interpreting machine learning models.</i>
-    <br></br>
+      </div>
+    </br>
+  <div align="justify">
+      Unlock the power of your data. I assist organisations in using data to drive decisions, create impacts and transform their businesses. By manipulating and merging data sources, building visualisations, building and interpreting machine learning models.
+    <br><br><br><br>
+    </div>
+  <div align="center">
       <b>
         Economics
       </b>
   <br></br>
     <i class='fas fa-chart-line' style='font-size:36px'></i>
-  <br></br>
+    </div>
+  <br>
+  <div align="justify">
      I collaborate with government policy makers, community leaders, and business industry experts to provide strategic consulting. I can lead your research assignments by analyzing data from a wide variety of source, writing and preparing reports and presentations and assisting with business development.
-  <br></br>
+    </div>
+  <br><br><br><br>
     <b>
+    <div align="center">
       Teaching
     </b>
   <br></br>
     <i class='fas fa-chalkboard-teacher' style='font-size:36px'></i>
-  <br></br>
+    </div>
+  <br>
+  <div align="justify">
     I can help you developing your skills in the following technologies:
   </div>
   <br></br>
