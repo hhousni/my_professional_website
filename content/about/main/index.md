@@ -15,10 +15,12 @@ intro: |
      </div>
   <div align="justify">
     <br></br>
-  Hello, Karibu (welcome in Swahili). I’m Housni Hassani a Data Scientist | Economist and R addict. I use scientific methods, processes and algorithms to extract knowledge and insights from data.I also build data analytics tools for the community. Some topics of interest but aren’t limited to Data Analytics, Machine Learning, NLP, Marketing, Economics (Small Island developing states).
+  Hello and welcome, Karibu! I am Housni Hassani, a highly skilled and experienced data and analytics consultant and economist who is also passionate about the R programming language. I use my expertise in scientific methods, processes, and algorithms to extract valuable insights and knowledge from data. Furthermore, I am dedicated to promoting the use of data analytics by developing user-friendly tools for the community. My areas of interest and expertise include, but are not limited to, data analytics, machine learning, NLP, marketing, and economics, with a special focus on small island developing states.
       <br></br>
       
-  I was born in [Comoro Islands](https://en.wikipedia.org/wiki/Comoro_Islands), grew up in France and, currently living in Sydney, Australia. In my free time, you can find me in an outdoor gym doing calisthenics, on the beach or in a park doing Slackline.    
+  
+  I was fortunate to have been born in the stunning [Comoros islands](https://en.wikipedia.org/wiki/Comoro_Islands) and to have had the opportunity to call France my childhood home. My experiences living and working in Sydney, Australia, have led me to eventually make Wellington, New Zealand my current place of residence. In my free time, I embrace an active lifestyle and relish the challenge of pushing my physical and mental limits. You can frequently find me developing my strength and agility through calisthenics at outdoor gyms, basking in the sun's warmth at the beach, or honing my balance and coordination on a Slackline in nearby parks.
+  
       <br></br><br></br>
    </div>
      
