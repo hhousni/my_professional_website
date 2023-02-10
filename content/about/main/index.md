@@ -21,7 +21,6 @@ intro: |
   
   I was fortunate to have been born in the stunning [Comoros islands](https://en.wikipedia.org/wiki/Comoro_Islands) and to have had the opportunity to call France my childhood home. My experiences living and working in Sydney, Australia, have led me to eventually make Wellington, New Zealand my current place of residence. In my free time, I embrace an active lifestyle and relish the challenge of pushing my physical and mental limits. You can frequently find me developing my strength and agility through calisthenics at outdoor gyms, basking in the sun's warmth at the beach, or honing my balance and coordination on a Slackline in nearby parks.
   
-      <br></br><br></br>
    </div>
      
    <i class="fas fa-certificate pr2"></i> [Alteryx Designer Core Certification](https://www.credly.com/badges/2465360b-41e7-4fa7-bd71-36760be73233/public_url) &#8729;  Alteryx  &#8729;  2022</i>
