@@ -32,11 +32,9 @@ links:
     name: post materials
     url: https://github.com/hhousni/my_professional_website/tree/master/content/blog/AB_test_part_1
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
 In today's data-driven world, making informed decisions is crucial for success in any industry. A/B testing, often referred to as split testing, emerges as a powerful tool that empowers organizations to steer their strategies toward success through data-driven insights. This comprehensive guide explores the significance of A/B testing, its core process, and its versatile applications across various fields and industries.
 
 ## What is A/B Testing?
