@@ -1,7 +1,7 @@
 ---
 title: "Housni Hassani"
 subtitle: "Data Scientist | Economist"
-description: "I’m a Data Scientist, Economist and R devotee. I love translating data into valuable and comprehensive insights. I also enjoy developing tools to make analysing data easier and fun."
+description: "I'm a Data Scientist, Economist, and passionate about R programming. I love translating data into valuable and comprehensive insights and crafting user-friendly tools for data analysis, making it both enjoyable and efficient."
 images:
   - img/fibo.jpg
 image_alt_text: "Photo of stairs representing fibonaci diagram"
