@@ -15,11 +15,11 @@ intro: |
      </div>
   <div align="justify">
     <br></br>
-  Hello and welcome, Karibu! I am Housni Hassani, a highly skilled and experienced data and analytics consultant and economist who is also passionate about the R programming language. I use my expertise in scientific methods, processes, and algorithms to extract valuable insights and knowledge from data. Furthermore, I am dedicated to promoting the use of data analytics by developing user-friendly tools for the community. My areas of interest and expertise include, but are not limited to, data analytics, machine learning, NLP, marketing, and economics, with a special focus on small island developing states.
+  Hello, Karibu! I'm Housni Hassani, a data and analytics consultant and economist with a keen interest in the R programming language. I leverage my expertise in scientific methods, processes, and algorithms to derive valuable insights and knowledge from data. Additionally, I'm committed to advancing the use of data analytics by creating user-friendly tools for the community. My areas of specialization encompass data analytics, machine learning, natural language processing (NLP), marketing, and economics, with a particular emphasis on small island developing states.
       <br></br>
       
   
-  I was fortunate to have been born in the stunning [Comoros islands](https://en.wikipedia.org/wiki/Comoro_Islands) and to have had the opportunity to call France my childhood home. My experiences living and working in Sydney, Australia, have led me to eventually make Wellington, New Zealand my current place of residence. In my free time, I embrace an active lifestyle and relish the challenge of pushing my physical and mental limits. You can frequently find me developing my strength and agility through calisthenics at outdoor gyms, basking in the sun's warmth at the beach, or honing my balance and coordination on a Slackline in nearby parks.
+  I was fortunate to have been born in the stunning [Comoros islands](https://en.wikipedia.org/wiki/Comoro_Islands) and to have had the opportunity to call France my childhood home. My experiences living and working in Sydney, Australia, have led me to eventually lived and worked in Wellington, New Zealand before landing in Barcelona, Spain my current place of residence. In my free time, you'll find me pushing my limits outdoors, whether it's doing calisthenics at the gym, chilling at the beach, or mastering my balance on a Slackline in the park.
   
    </div>
      
