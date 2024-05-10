@@ -12,9 +12,9 @@ layout: list-sidebar # list, list-sidebar, list-grid
 
 # for list-sidebar layout
 sidebar: 
-  title: Welcome
+  title: Karibu
   description: |
-    To my blog where I share my intellectual curiosity about Data science, Economics and Marketing. It includes notes and tutorials for the community and my future self.
+    Welcome to my blog where I share my intellectual curiosity about Data science, Economics and Marketing. It includes notes and tutorials for the community and my future self.
   author: "Housni Hassani"
   text_link_label: Subscribe via RSS
   text_link_url: /index.xml
